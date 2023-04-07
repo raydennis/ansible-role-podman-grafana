@@ -1,0 +1,27 @@
+---
+# tasks file for ansible-role-podman-grafana
+  - name: Ensure Podman is installed
+    package:
+      name: podman
+      state: present
+
+  - name: Pull Grafana
+    podman_image:
+      name: docker.io/grafana/grafana
+
+  - name: Create Grafana data directory
+    file:
+      path: /data/grafana-data
+      state: directory
+      mode: '0755'
+      recurse: yes
+      owner: 472
+      group: 472
+
+  - name: Run Grafana
+    containers.podman.podman_container:
+      name: grafana
+      image: docker.io/grafana/grafana
+      state: started
+      volume: /data/grafana-data:/var/lib/grafana/:Z
+      network: host 

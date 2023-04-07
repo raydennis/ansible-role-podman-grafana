@@ -1,0 +1,14 @@
+
+
+        
+---
+  - name: Remove Grafana
+    podman_image:
+      name: quay.io/grafana/grafana
+      state: absent
+
+  - name: Remove Grafana container
+    containers.podman.podman_container:
+      name: grafana-grafana
+      image: quay.io/grafana/grafana
+      state: absent
